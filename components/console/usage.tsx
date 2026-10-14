@@ -61,8 +61,8 @@ export function Usage() {
   return (
     <div className="mx-auto max-w-[1300px] px-4 py-6">
       <p className="eyebrow">Console · Usage</p>
-      <h1 className="display mt-1 text-3xl text-text sm:text-4xl">Usage, latency and spend for voice-demo</h1>
-      <p className="mt-2 max-w-3xl text-muted">October 1–{TODAY}, 2026. Synthetic data for one project.</p>
+      <h1 className="display mt-1 text-3xl text-text sm:text-4xl">Usage</h1>
+      <p className="mt-2 max-w-3xl text-muted">Oct 1–{TODAY}, 2026 · synthetic data</p>
 
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <section aria-labelledby={`${id}-spend`} className="rounded-lg border border-line bg-card p-5 sm:p-6 lg:col-span-2">
@@ -103,7 +103,7 @@ export function Usage() {
               </span>
             </div>
             <p role="status" className="mt-1 text-xs text-muted">
-              {budgetOn ? (budgetHitDay && budgetHitDay <= DAYS_IN_MONTH ? `At this pace you'll reach ${usd(budget, 0)} around Oct ${budgetHitDay}.` : `You won't reach ${usd(budget, 0)} this month at this pace.`) : "No alert set. There's no spend cap today; this would be the first."}
+              {budgetOn ? (budgetHitDay && budgetHitDay <= DAYS_IN_MONTH ? `At this pace you'll reach ${usd(budget, 0)} around Oct ${budgetHitDay}.` : `You won't reach ${usd(budget, 0)} this month at this pace.`) : "No alert set."}
             </p>
           </div>
         </section>
@@ -112,17 +112,17 @@ export function Usage() {
           <h2 id={`${id}-data`} className="panel-title flex flex-wrap items-center gap-2">
             Project data settings <Badge tone="amber">Proposed</Badge>
           </h2>
-          <p className="mt-1 text-xs text-muted">Developers ask for these per project instead of per request.</p>
+          
           <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-lg border border-line p-3">
             <input type="checkbox" checked={mip} onChange={(e) => setMip(e.target.checked)} className="mt-0.5 size-4 accent-[var(--green)]" />
             <span>
               <span className="block text-sm font-semibold">Opt out of model improvement</span>
-              <span className="block text-xs text-muted">Applies mip_opt_out to every request in this project, so no one has to remember the flag.</span>
+              <span className="block text-xs text-muted">Sets mip_opt_out on every request.</span>
             </span>
           </label>
           <div className="mt-3 rounded-lg border border-line p-3">
             <p className="text-sm font-semibold">Request logs</p>
-            <p className="text-xs text-muted">Kept for 90 days. Export to CSV, or use the Usage API for longer history.</p>
+            <p className="text-xs text-muted">Kept 90 days. Export CSV for longer.</p>
           </div>
         </section>
       </div>
@@ -180,7 +180,7 @@ export function Usage() {
             </tbody>
           </table>
         </div>
-        <p className="mt-2 text-xs text-muted">Percentiles, not averages: the p95 is what one caller in twenty actually waits.</p>
+        <p className="mt-2 text-xs text-muted">p95: what one caller in twenty waits.</p>
       </Panel>
       </div>
 
@@ -285,7 +285,7 @@ export function Usage() {
               </dl>
               {open.status !== 200 && (
                 <p className="mt-3 rounded-md bg-red/10 p-2 text-sm text-text">
-                  {open.status === 429 ? "Rate limited: this project hit its concurrency limit. Retry with backoff, or raise the limit on a Growth plan." : open.status === 401 ? "The key was invalid or expired. Check which key sent it in API keys." : "Bad request: an option wasn't valid for this model (for example smart_format with Flux)."}
+                  {open.status === 429 ? "Rate limited. Retry with backoff." : open.status === 401 ? "Invalid or expired key." : "An option isn't valid for this model (e.g. smart_format with Flux)."}
                 </p>
               )}
               {open.product === "Voice Agent" && (

@@ -29,8 +29,8 @@ export default function CosmosPage() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-6">
       <p className="eyebrow">Design · Cosmos+</p>
-      <h1 className="display mt-1 text-3xl sm:text-4xl">Cosmos, read from the Playground, extended for voice</h1>
-      <p className="mt-2 max-w-3xl text-muted">The foundations below were measured from playground.deepgram.com and deepgram.com. The components after them are proposals for patterns a voice product needs and Cosmos may not cover yet.</p>
+      <h1 className="display mt-1 text-3xl sm:text-4xl">Cosmos, extended for voice</h1>
+      <p className="mt-2 max-w-3xl text-muted">Measured from the live Playground. Voice components are proposals.</p>
 
       <Section title="Foundations">
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -81,7 +81,7 @@ export default function CosmosPage() {
               ▶
             </span>
           </div>
-          <p className="mt-3 text-xs text-muted">Primary #fbfbff on #232329 (15.1:1), 4px corners, 36px tall. Play: #2c2c33 on #13ef93 (9.1:1).</p>
+          <p className="mt-3 text-xs text-muted">Primary 15.1:1 · 4px corners · 36px tall.</p>
         </div>
       </Section>
 
@@ -91,12 +91,12 @@ export default function CosmosPage() {
 
       <Section title="Edge cases Cosmos doesn't answer yet">
         <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <Edge title="Control borders are under 3:1">#4e4e52 is 2.14:1 on cards, below WCAG 1.4.11 for inputs and selectable rows. Proposal: a separate border-control token at #66666c (3.10:1); keep #4e4e52 for decorative lines.</Edge>
-          <Edge title="Magenta fails as text on cards">#ef0074 is 4.06:1 on #18181d. Data series that need a pink use #ff7ab8 (7.2:1), with the brand magenta kept for fills and illustration.</Edge>
-          <Edge title="Many categorical colours, one dark surface">Latency stages need five or six distinguishable series. Each gets a hue plus a label in the row and a pattern where it matters (the hatched “held” stage), so the chart survives colour blindness and greyscale screenshots.</Edge>
-          <Edge title="Live data and screen readers">Charts that update every animation frame can&apos;t be read live. Pattern: the visual updates continuously, a polite status line summarises changes, and full values sit in a text alternative or JSON view.</Edge>
-          <Edge title="Pointer-only manipulation">Dragging the threshold line is fast for a mouse. The same value is always a labelled slider elsewhere on the page, so nothing is pointer-only.</Edge>
-          <Edge title="Proposed vs shipped">Concept features that don&apos;t exist yet (budget alerts, project data settings) are marked with an amber “Proposed” badge, so screenshots can&apos;t be mistaken for the product.</Edge>
+          <Edge title="Control borders are under 3:1">#4e4e52 is 2.14:1 on cards. Proposed control border: #66666c (3.10:1).</Edge>
+          <Edge title="Magenta fails as text on cards">#ef0074 is 4.06:1 on cards. Text uses #ff7ab8 (7.2:1).</Edge>
+          <Edge title="Many categorical colours, one dark surface">Six latency stages: each gets a hue, a label and, where needed, a pattern.</Edge>
+          <Edge title="Live data and screen readers">Charts update live; a status line summarises, values sit in text.</Edge>
+          <Edge title="Pointer-only manipulation">Every draggable value also has a slider.</Edge>
+          <Edge title="Proposed vs shipped">Unshipped features carry a “Proposed” badge.</Edge>
         </ul>
       </Section>
     </div>

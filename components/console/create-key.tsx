@@ -66,7 +66,7 @@ export function CreateKey() {
     <div className="mx-auto max-w-6xl px-4 py-6">
       <p className="eyebrow">Console · API keys</p>
       <h1 className="display mt-1 text-3xl text-text sm:text-4xl">Create an API key that works the first time</h1>
-      <p className="mt-2 max-w-3xl text-muted">Start from what the key is for. Console picks the least-privileged role that can do it, and says what the key can and can&apos;t do before it exists.</p>
+      <p className="mt-2 max-w-3xl text-muted">Pick what it&apos;s for. See what it can do before it exists.</p>
 
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-4">
@@ -175,7 +175,7 @@ export function CreateKey() {
                   </label>
                 ))}
               </div>
-              {expiry === null && <p className="mt-2 text-xs text-amber">Keys that never expire are the ones that leak. Set a reminder to rotate it.</p>}
+              {expiry === null && <p className="mt-2 text-xs text-amber">Non-expiring keys are the ones that leak.</p>}
             </fieldset>
           </Panel>
 
@@ -209,7 +209,7 @@ export function CreateKey() {
         <h2 id={`${id}-dlg`} className="display text-xl">
           Copy your key now
         </h2>
-        <p className="mt-1 text-sm text-muted">This is the only time the secret is shown. Store it in your secret manager or .env file.</p>
+        <p className="mt-1 text-sm text-muted">You won&apos;t see it again.</p>
         {secret && (
           <>
             <div className="mt-4 flex items-center gap-2 rounded-md border border-line bg-surface p-2">

@@ -65,7 +65,7 @@ export const SESSIONS: Session[] = [
   {
     id: "pizza",
     title: "Pizza order",
-    blurb: "A hesitant order with a mid-sentence pause. Watch where a low threshold cuts the caller off.",
+    blurb: "A pause mid-order.",
     prompt: "You take phone orders for Slice House. Confirm size, toppings and pickup time. Keep replies under two sentences.",
     greeting: { text: "Hi, thanks for calling Slice House. What can I get started for you?", speak: 3.4 },
     exchanges: [
@@ -94,7 +94,7 @@ export const SESSIONS: Session[] = [
   {
     id: "clinic",
     title: "Clinic reschedule",
-    blurb: "Dates and times spoken with pauses. A tool call checks availability before the agent answers.",
+    blurb: "Pauses and tool calls.",
     prompt: "You reschedule appointments for Northside Family Clinic. Always check availability before offering a time. Never book without the patient confirming.",
     greeting: { text: "Northside Family Clinic, this is the scheduling assistant. How can I help?", speak: 3.9 },
     exchanges: [
@@ -118,7 +118,7 @@ export const SESSIONS: Session[] = [
   {
     id: "support",
     title: "Support, with interruptions",
-    blurb: "The caller cuts in while the agent is talking. See what they actually heard before the audio was flushed.",
+    blurb: "The caller interrupts.",
     prompt: "You are Wavelength Internet's support agent. Troubleshoot step by step. Stop talking when the customer interrupts.",
     greeting: { text: "Thanks for calling Wavelength support. I can help with connection, billing or equipment questions. What's going on today?", speak: 6.2 },
     exchanges: [

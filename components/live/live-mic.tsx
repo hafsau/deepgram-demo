@@ -176,7 +176,7 @@ export function LiveMic() {
     };
     ws.onerror = () => {
       setFlux("error");
-      setFluxError("Deepgram closed the connection. Check that the key is valid and has credit, and that it has Member role or higher.");
+      setFluxError("Connection closed. Check the key and its credit.");
     };
     ws.onclose = (e) => {
       if (e.code !== 1000 && e.code !== 1005) {
@@ -230,10 +230,10 @@ export function LiveMic() {
     <div className="mx-auto max-w-6xl px-6 py-6">
       <p className="eyebrow">Playground · Live mic</p>
       <h1 className="display mt-1 text-3xl sm:text-4xl">Feel turn detection with your own voice</h1>
-      <p className="mt-2 max-w-3xl text-muted">Talk, then pause mid-sentence as if you&apos;re thinking. A silence timer decides you&apos;re done; Flux listens for whether you sound done.</p>
+      <p className="mt-2 max-w-3xl text-muted">Talk, then pause mid-sentence. See when it decides you&apos;re done.</p>
 
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <Panel title="Silence timer, on your mic" id={`${id}-local`} actions={<span className="text-xs text-muted">Runs in your browser. No key, no cost.</span>}>
+        <Panel title="Silence timer, on your mic" id={`${id}-local`} actions={<span className="text-xs text-muted">No key needed</span>}>
           <div className="flex flex-wrap items-center gap-3">
             {listening ? (
               <button type="button" onClick={stop} className={btn("secondary")}>
@@ -265,8 +265,8 @@ export function LiveMic() {
 
         <Panel title="Settings" id={`${id}-set`}>
           <div className="space-y-4">
-            <Slider label="Endpointing (silence)" value={endpointing} min={200} max={2000} step={50} format={(v) => `${v} ms`} onChange={setEndpointing} hint="Pause longer than this and the timer ends your turn." />
-            <Slider label="eot_threshold (Flux)" value={threshold} min={0.5} max={1} step={0.01} format={(v) => v.toFixed(2)} onChange={setThreshold} hint="Applied when you connect with a key." />
+            <Slider label="Endpointing (silence)" value={endpointing} min={200} max={2000} step={50} format={(v) => `${v} ms`} onChange={setEndpointing} hint="Longer pauses end your turn." />
+            <Slider label="eot_threshold (Flux)" value={threshold} min={0.5} max={1} step={0.01} format={(v) => v.toFixed(2)} onChange={setThreshold} hint="Used with a key." />
           </div>
         </Panel>
       </div>
@@ -289,7 +289,7 @@ export function LiveMic() {
                 className="mt-1.5 h-11 w-full rounded-[4px] border border-line-strong bg-card px-2.5 font-mono text-sm text-text"
               />
               <p id={`${id}-key-hint`} className="mt-1.5 text-xs leading-snug text-muted">
-                Kept in this tab&apos;s memory only and sent only to api.deepgram.com. Never stored. New accounts get $200 of free credit; a minute of Flux costs under a cent.
+                Stays in this tab. Sent only to Deepgram. Never stored.
               </p>
               <button type="button" disabled={!key.trim() || listening} onClick={() => start(true)} className={btn("primary", "mt-3")}>
                 Connect and start talking

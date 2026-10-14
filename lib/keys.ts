@@ -42,10 +42,10 @@ export function capabilities(role: Role): Record<Capability, boolean> {
 export type UseCase = "server" | "browser" | "dashboard" | "automation";
 
 export const USE_CASES: Record<UseCase, { label: string; detail: string; needs: Capability[]; role: Role; expiryDays: number | null }> = {
-  server: { label: "Server app", detail: "Your backend calls speech-to-text, text-to-speech or the Voice Agent API.", needs: ["transcribe", "speak", "agent"], role: "member", expiryDays: 365 },
-  browser: { label: "Browser or mobile app", detail: "Your server mints short-lived tokens, so the real key never reaches the client.", needs: ["tempTokens"], role: "member", expiryDays: 90 },
-  dashboard: { label: "Usage dashboard", detail: "Read-only access to usage and request logs.", needs: ["usage"], role: "custom", expiryDays: 365 },
-  automation: { label: "Admin automation", detail: "Scripts that create and rotate keys. Keep it short-lived.", needs: ["keys", "usage"], role: "admin", expiryDays: 30 },
+  server: { label: "Server app", detail: "Backend calls to STT, TTS or agents.", needs: ["transcribe", "speak", "agent"], role: "member", expiryDays: 365 },
+  browser: { label: "Browser or mobile app", detail: "Mint short-lived tokens for clients.", needs: ["tempTokens"], role: "member", expiryDays: 90 },
+  dashboard: { label: "Usage dashboard", detail: "Read-only usage and logs.", needs: ["usage"], role: "custom", expiryDays: 365 },
+  automation: { label: "Admin automation", detail: "Scripts that rotate keys.", needs: ["keys", "usage"], role: "admin", expiryDays: 30 },
 };
 
 /** Capabilities the use case needs that the chosen role doesn't grant. */

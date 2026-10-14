@@ -49,7 +49,7 @@ export function Playground({ initial }: { initial: Config }) {
   const share = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      setShared("Link copied. It opens this exact session and configuration.");
+      setShared("Link copied.");
     } catch {
       setShared(`Copy this link: ${window.location.href}`);
     }
@@ -65,7 +65,7 @@ export function Playground({ initial }: { initial: Config }) {
           <h1 className="display mt-1 text-3xl text-text sm:text-4xl">
             Turn by turn: <span className="gradient-text">see where the time goes</span>
           </h1>
-          <p className="mt-2 max-w-3xl text-muted">Replay a recorded call, then tune turn detection and watch every turn&apos;s latency, cut-offs and interruptions change. Everything here is driven by the same Settings your code sends.</p>
+          <p className="mt-2 max-w-3xl text-muted">Replay a call. Tune turn detection. Watch every turn change.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button type="button" onClick={share} className={btn("primary")}>
@@ -88,8 +88,7 @@ export function Playground({ initial }: { initial: Config }) {
           onChange={(v) => (setCfg({ session: v }), setSelected(0))}
         />
       </div>
-      <p className="mt-2 text-sm text-muted">{session.blurb}</p>
-
+      
       <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-[290px_minmax(0,1fr)] 2xl:grid-cols-[290px_minmax(0,1fr)_380px]">
         {/* ---------------- Config ---------------- */}
         <aside aria-label="Settings" className="space-y-4">
@@ -104,7 +103,7 @@ export function Playground({ initial }: { initial: Config }) {
                       <span className="text-sm font-semibold text-text">{LISTEN_LABEL[m]}</span>
                     </span>
                     <span className="mt-1 block text-xs leading-snug text-muted">
-                      {m === "flux" ? "Turn detection lives in the model: it hears that “um…” isn’t the end." : "A silence timer decides the turn: fast transcripts, but every long pause looks like the end."}
+                      {m === "flux" ? "Detects turn endings in the model." : "Ends turns after silence."}
                     </span>
                   </label>
                 ))}
@@ -113,18 +112,18 @@ export function Playground({ initial }: { initial: Config }) {
             <div className="mt-4 space-y-4">
               {cfg.listen === "flux" ? (
                 <>
-                  <Slider label="eot_threshold" value={cfg.eot} min={LIMITS.eot[0]} max={LIMITS.eot[1]} step={0.01} format={(v) => v.toFixed(2)} onChange={(v) => setCfg({ eot: v })} hint="Lower replies sooner but cuts more people off." />
+                  <Slider label="eot_threshold" value={cfg.eot} min={LIMITS.eot[0]} max={LIMITS.eot[1]} step={0.01} format={(v) => v.toFixed(2)} onChange={(v) => setCfg({ eot: v })} hint="Lower is faster, but cuts more callers off." />
                   <div>
                     <label className="flex min-h-9 cursor-pointer items-center gap-2 text-sm text-text">
                       <input type="checkbox" checked={cfg.eager !== null} onChange={(e) => setCfg({ eager: e.target.checked ? Math.min(0.5, cfg.eot) : null })} className="size-4 accent-[var(--green)]" />
-                      Eager end-of-turn (speculative replies)
+                      Eager end-of-turn
                     </label>
-                    {cfg.eager !== null && <Slider label="eager_eot_threshold" value={cfg.eager} min={LIMITS.eager[0]} max={Math.min(LIMITS.eager[1], cfg.eot)} step={0.01} format={(v) => v.toFixed(2)} onChange={(v) => setCfg({ eager: v })} hint="The agent starts thinking early and holds audio until the turn is confirmed. Costs extra LLM calls." />}
+                    {cfg.eager !== null && <Slider label="eager_eot_threshold" value={cfg.eager} min={LIMITS.eager[0]} max={Math.min(LIMITS.eager[1], cfg.eot)} step={0.01} format={(v) => v.toFixed(2)} onChange={(v) => setCfg({ eager: v })} hint="Starts the reply early. Costs extra LLM calls." />}
                   </div>
-                  <Slider label="eot_timeout_ms" value={cfg.timeoutMs} min={LIMITS.timeoutMs[0]} max={LIMITS.timeoutMs[1]} step={100} format={(v) => `${v} ms`} onChange={(v) => setCfg({ timeoutMs: v })} hint="Forces the turn to end after this much silence." />
+                  <Slider label="eot_timeout_ms" value={cfg.timeoutMs} min={LIMITS.timeoutMs[0]} max={LIMITS.timeoutMs[1]} step={100} format={(v) => `${v} ms`} onChange={(v) => setCfg({ timeoutMs: v })} hint="Maximum silence before a turn ends." />
                 </>
               ) : (
-                <Slider label="Endpointing (silence)" value={cfg.endpointingMs} min={LIMITS.endpointingMs[0]} max={LIMITS.endpointingMs[1]} step={50} format={(v) => `${v} ms`} onChange={(v) => setCfg({ endpointingMs: v })} hint="Shorter is snappier, until someone pauses to think." />
+                <Slider label="Endpointing (silence)" value={cfg.endpointingMs} min={LIMITS.endpointingMs[0]} max={LIMITS.endpointingMs[1]} step={50} format={(v) => `${v} ms`} onChange={(v) => setCfg({ endpointingMs: v })} hint="Shorter is faster, until someone pauses." />
               )}
             </div>
           </Panel>
@@ -135,7 +134,7 @@ export function Playground({ initial }: { initial: Config }) {
               <Slider label="Speed" value={cfg.speed} min={LIMITS.speed[0]} max={LIMITS.speed[1]} step={0.05} format={(v) => `${v.toFixed(2)}×`} onChange={(v) => setCfg({ speed: v })} />
             </div>
           </Panel>
-          <p className="px-1 text-xs leading-snug text-dim">Sessions are recorded and synthetic. Component timings are illustrative; parameter names and ranges match the Voice Agent API.</p>
+          <p className="px-1 text-xs leading-snug text-dim">Synthetic sessions, illustrative timings.</p>
         </aside>
 
         {/* ---------------- Main ---------------- */}
@@ -164,17 +163,17 @@ export function Playground({ initial }: { initial: Config }) {
           <Panel
             title={`Turn ${turn.index + 1}: ${cfg.listen === "flux" ? "end-of-turn confidence" : "silence endpointing"}`}
             id={`${id}-eot`}
-            actions={<span className="font-mono text-xs text-muted">{cfg.listen === "flux" ? "drag the green line, or use eot_threshold" : `endpointing ${cfg.endpointingMs} ms`}</span>}
+            actions={<span className="font-mono text-xs text-muted">{cfg.listen === "flux" ? "drag the line to adjust" : `endpointing ${cfg.endpointingMs} ms`}</span>}
           >
             <EotChart words={turn.exchange.words} detection={turn.detection} threshold={cfg.eot} eager={cfg.eager} mode={cfg.listen} endpointingMs={cfg.endpointingMs} onThreshold={(v) => setCfg({ eot: v })} />
             <p className="mt-2 text-sm text-muted">
               {turn.detection.premature ? (
                 <>
-                  <span className="font-semibold text-red">Cut early.</span> The turn ended after “{turn.exchange.words[turn.detection.premature.afterWord].w}”, while the caller was still mid-sentence. {cfg.listen === "flux" ? "Raise eot_threshold" : "Lengthen endpointing, or switch to Flux"} to wait it out.
+                  <span className="font-semibold text-red">Cut early.</span> Ended after “{turn.exchange.words[turn.detection.premature.afterWord].w}”, mid-sentence. {cfg.listen === "flux" ? "Raise eot_threshold." : "Lengthen endpointing, or try Flux."}
                 </>
               ) : (
                 <>
-                  <span className="font-semibold text-green">Clean turn.</span> Confirmed {ms(turn.detection.finalEot - turn.detection.lastEnd)} after the last word{turn.detection.timedOut ? ", by the timeout" : ""}.
+                  <span className="font-semibold text-green">Clean turn.</span> Ended {ms(turn.detection.finalEot - turn.detection.lastEnd)} after the last word{turn.detection.timedOut ? " (timeout)" : ""}.
                 </>
               )}
             </p>
@@ -261,7 +260,7 @@ export function Playground({ initial }: { initial: Config }) {
                     { id: "js", label: "Node.js", code: code(cfg, "javascript") },
                     { id: "py", label: "Python", code: code(cfg, "python") },
                   ]}
-                  note="Generated from the settings on this page. Keys are read from DEEPGRAM_API_KEY, never pasted into code."
+                  note="Matches the settings on this page. Reads DEEPGRAM_API_KEY."
                 />
               )}
               {tab === "cost" && (
@@ -273,7 +272,7 @@ export function Playground({ initial }: { initial: Config }) {
                 </dl>
               )}
               {tab === "cost" && (
-                <p className="mt-3 text-xs text-muted">Pay-as-you-go Voice Agent API pricing ($0.075/min, standard), deepgram.com/pricing, October 2026.</p>
+                <p className="mt-3 text-xs text-muted">Voice Agent standard, $0.075/min (Oct 2026).</p>
               )}
             </div>
           </div>

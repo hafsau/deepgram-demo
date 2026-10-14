@@ -27,20 +27,20 @@ export function CosmosDemos() {
     <div className="space-y-4">
       <Spec
         name="Latency waterfall"
-        why="Voice latency is overlapping work, not a sum: an eager LLM call starts before the turn is confirmed. One shared axis from “caller stopped speaking” shows the overlap honestly, and the headline is time to first audio, the number a caller feels."
+        why="Stages overlap, so they share one axis. The headline is time to first audio."
         states={["Default", "With eager reply (overlap)", "With tool call", "Held for confirmation (hatched)", "Compact (in lists)"]}
         a11y={["Text summary of every stage in the figure caption", "Stage names are in the row, so colour is never the only key", "Hatch pattern for the one non-work stage"]}
       >
         <label className="mb-3 flex min-h-9 cursor-pointer items-center gap-2 text-sm text-text">
           <input type="checkbox" checked={eager} onChange={(e) => setEager(e.target.checked)} className="size-4 accent-[var(--green)]" />
-          Eager reply (shows overlap and the held stage)
+          Eager reply
         </label>
         <Waterfall stages={clinic.stages} total={clinic.report.total_latency} label="Clinic, turn 2, with a tool call" />
       </Spec>
 
       <Spec
         name="End-of-turn chart"
-        why="Turn detection is the most misunderstood setting in voice agents. Plotting confidence under the actual words makes the trade-off visible: the spike after “large” is where a low threshold cuts the caller off."
+        why="Confidence under the real words shows where callers get cut off."
         states={["Flux: confidence curve and threshold", "Eager line", "Cut early marker", "Timeout", "Nova-3: silence gaps instead of a curve"]}
         a11y={["The draggable line is a convenience; the labelled slider is the accessible control", "Caption states where and why the turn ended"]}
       >
@@ -50,7 +50,7 @@ export function CosmosDemos() {
 
       <Spec
         name="Transcript with confidence and cuts"
-        why="Developers debugging an agent need to see what the agent heard, not what the caller said. The cut marker and the struck-through, unheard reply answer “why did it respond to half a sentence?” and “why does the user think it never told them?”."
+        why="Shows what the agent heard, and what the caller heard."
         states={["Default", "Low-confidence word (dotted underline)", "Cut early marker", "Agent reply interrupted (heard up to here)"]}
         a11y={["Low confidence is announced in text, not only underlined", "The unheard part of the reply is explained for screen readers"]}
       >
@@ -62,7 +62,7 @@ export function CosmosDemos() {
 
       <Spec
         name="Model picker card"
-        why="Developers ask “Flux or Nova-3?” as an accuracy question. The real difference is where turn detection lives, so the card leads with that, in one line."
+        why="The real difference is where turn detection lives."
         states={["Default", "Hover", "Selected (green border)", "Focus"]}
         a11y={["Native radios inside a fieldset with a legend", "Selection shown by border and the radio dot"]}
       >
@@ -82,7 +82,7 @@ export function CosmosDemos() {
 
       <Spec
         name="Code block"
-        why="“Get code” must produce exactly what the UI is set to, or developers lose trust in the Playground the first time they paste it. Keys are never inlined."
+        why="Code must match the UI exactly. Keys are never inlined."
         states={["Settings JSON", "Node.js", "Python", "Copied"]}
         a11y={["Tabs follow the ARIA tabs pattern with arrow keys", "Code region is focusable for keyboard scrolling", "Copy result announced in a status region"]}
       >
@@ -91,7 +91,7 @@ export function CosmosDemos() {
             { id: "json", label: "Settings", code: code(cfg, "json") },
             { id: "js", label: "Node.js", code: code(cfg, "javascript") },
           ]}
-          note="Generated from the specimen settings above."
+          note="From the settings above."
         />
       </Spec>
     </div>

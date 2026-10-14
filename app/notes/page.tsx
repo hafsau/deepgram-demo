@@ -10,33 +10,33 @@ export const metadata: Metadata = {
 const DECISIONS: { title: string; why: string; lost: string }[] = [
   {
     title: "Lead with time to first audio, at p50 and p95",
-    why: "It's the latency a caller feels. Percentiles show the slow tail that averages hide; production voice agents often look fine on average and feel slow one call in twenty.",
-    lost: "A single “average latency” number. Easy to read, and misleading.",
+    why: "It's what callers feel. Averages hide the slow tail.",
+    lost: "One average latency number.",
   },
   {
     title: "Draw stages on one shared axis, overlapping",
-    why: "With eager end-of-turn, the LLM starts before the turn is confirmed. A stacked bar would add up work that ran in parallel and overstate latency.",
-    lost: "Stacked bars per component. Familiar, but wrong for speculative pipelines.",
+    why: "Eager replies run in parallel. Stacking would overstate latency.",
+    lost: "Stacked bars.",
   },
   {
     title: "Make turn detection the hero control",
-    why: "It's where Flux differs from every timer-based model, and the setting developers understand least. Showing confidence under the real words turns an abstract number into a visible trade-off.",
-    lost: "A settings form with eot_threshold as one field among many.",
+    why: "It's Flux's edge, and the least understood setting.",
+    lost: "A plain settings form.",
   },
   {
     title: "Recorded sessions first, live second",
-    why: "A reviewer gets the full story in ten seconds with no permissions, keys or cost. Live mic is one click away for the curious.",
-    lost: "Live-only. Impressive when it works; blank when the mic is blocked.",
+    why: "The story in ten seconds, no mic or key needed.",
+    lost: "Live-only.",
   },
   {
     title: "Every config is a URL",
-    why: "“Look at turn 3 with eager on” should be a link you paste in Slack or a support ticket. It's in deepgram/examples issue #304 for the same reason.",
-    lost: "Saved presets behind an account.",
+    why: "“Look at turn 3 with eager on” should be a link.",
+    lost: "Saved presets behind a login.",
   },
   {
     title: "Keys start from the job, not the role",
-    why: "The FORBIDDEN trap on temporary tokens comes from picking a role without knowing what it allows. Asking “what will this key do?” lets Console choose least privilege and say so before the key exists.",
-    lost: "A role dropdown with a help link.",
+    why: "Prevents the FORBIDDEN trap and over-privileged keys.",
+    lost: "A role dropdown.",
   },
 ];
 
@@ -45,14 +45,14 @@ export default function NotesPage() {
     <div className="mx-auto max-w-5xl px-6 py-6">
       <p className="eyebrow">Design · Notes and handoff</p>
       <h1 className="display mt-1 text-3xl sm:text-4xl">The why, alongside the what</h1>
-      <p className="mt-2 max-w-3xl text-muted">The posting asks for decisions that are legible to the team and to engineering. This page is how I&apos;d hand this work over.</p>
+      <p className="mt-2 max-w-3xl text-muted">Decisions, handoff and limits.</p>
 
       <Section title="What this answers">
         <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <Card title="deepgram/examples #304">Raised by Deepgram&apos;s own DX system: a playground with word timings, waveforms, latency display, a request inspector and shareable config URLs, to move developers “from curious to convinced”. This concept builds that for the Voice Agent.</Card>
-          <Card title="“Latency stats in one place”">G2 reviewers ask for per-request latency and better visual analytics. Turn by Turn shows it per turn; Usage shows p50/p95 per model.</Card>
-          <Card title="Flux vs Nova-3 confusion">Developers ask which is “better”. The playground and model card explain the real difference: where turn detection lives.</Card>
-          <Card title="The temporary-token trap">A changelog correction (Sep 18, 2026) clarified that minting temporary tokens needs Member role or higher. Key creation now makes that impossible to get wrong.</Card>
+          <Card title="deepgram/examples #304">Latency display, request inspector, shareable configs.</Card>
+          <Card title="“Latency stats in one place” (G2)">Per turn in Playground, p50/p95 in Usage.</Card>
+          <Card title="Flux vs Nova-3 confusion">Explained by where turn detection lives.</Card>
+          <Card title="The temporary-token trap">Blocked before the key exists.</Card>
         </ul>
       </Section>
 
@@ -108,7 +108,7 @@ export default function NotesPage() {
           </table>
         </div>
         <p className="mt-3 text-sm text-muted">
-          Spacing follows Cosmos: cards 24px padding, 8px corners; controls 36–44px; 16px between controls in a panel; 4px button corners. Components and live specimens are on{" "}
+          Spacing per Cosmos. Specimens on{" "}
           <Link href="/cosmos" className="link">
             Cosmos+
           </Link>
@@ -117,28 +117,19 @@ export default function NotesPage() {
       </Section>
 
       <Section title="How I used AI">
-        <ul className="space-y-2 text-muted">
-          <li>
-            <b className="text-text">Research:</b> agents read the job post, Deepgram&apos;s docs, changelog, GitHub issues and public reviews in parallel, so I started from evidence rather than guesses.
-          </li>
-          <li>
-            <b className="text-text">Measurement:</b> the Cosmos foundations were read from the live Playground&apos;s computed styles, not eyeballed from screenshots.
-          </li>
-          <li>
-            <b className="text-text">Building:</b> I designed in code with Claude Code as a pair. I made the calls on what to show, what to cut and what the words say; it handled the TypeScript and tests.
-          </li>
-          <li>
-            <b className="text-text">Where it didn&apos;t help:</b> deciding that turn detection was the story, and that the waterfall must overlap rather than stack. Those came from reading the LatencyReport docs and thinking about what a developer is actually trying to debug.
-          </li>
+        <ul className="list-disc space-y-1.5 pl-5 text-muted">
+          <li>Research agents read the docs, changelog, issues and reviews in parallel.</li>
+          <li>Cosmos styles were measured from the live Playground, not eyeballed.</li>
+          <li>Built in code with Claude Code. The design calls were mine.</li>
         </ul>
       </Section>
 
       <Section title="What's real, what's illustrative">
         <ul className="list-disc space-y-1.5 pl-5 text-muted">
-          <li>Real: Voice Agent Settings shape and parameter ranges, LatencyReport fields, event names, Flux parameters, pricing, key roles and limits, Cosmos colours, type and spacing.</li>
-          <li>Illustrative: the recorded sessions, end-of-turn confidence curves, component timings (STT finalise, LLM and TTS first byte) and the usage log.</li>
-          <li>Proposed, not shipped: budget alerts, project-level data settings, the control-border token.</li>
-          <li>Live mic: the silence timer is real and runs locally. Flux streaming uses your own key; message fields are read defensively and shown raw.</li>
+          <li>Real: API shapes, parameters, events, pricing, key rules, Cosmos styles.</li>
+          <li>Illustrative: sessions, confidence curves, timings, usage log.</li>
+          <li>Proposed: budget alerts, project data settings, control-border token.</li>
+          <li>Live mic: real, local silence timer; Flux with your own key.</li>
         </ul>
       </Section>
     </div>
