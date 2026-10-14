@@ -1,6 +1,6 @@
 # Turn by Turn
 
-**▶ Live: _(add after deploy)_** · [![CI](https://github.com/hafsau/deepgram-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/hafsau/deepgram-demo/actions/workflows/ci.yml)
+**▶ Live: [deepgram-demo-kappa.vercel.app](https://deepgram-demo-kappa.vercel.app)** · [Live mic](https://deepgram-demo-kappa.vercel.app/live) · [Cosmos+](https://deepgram-demo-kappa.vercel.app/cosmos) · [Notes](https://deepgram-demo-kappa.vercel.app/notes) · [![CI](https://github.com/hafsau/deepgram-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/hafsau/deepgram-demo/actions/workflows/ci.yml)
 
 **A Deepgram Playground concept that makes real time visible.** An unofficial concept by [Hafsa Usmani](https://hafsausmani.com) for Deepgram's **Product Designer II** role (Playground and Console, on Cosmos).
 

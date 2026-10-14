@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: { default: "Turn by Turn: a Deepgram Playground concept", template: "%s · Turn by Turn" },
   description:
     "A Voice Agent playground concept that makes real time visible: per-turn latency waterfalls, a tunable Flux end-of-turn threshold, barge-in, an event inspector and code from your config. By Hafsa Usmani for Deepgram's Product Designer II role.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL("https://deepgram-demo-kappa.vercel.app"),
 };
 
 export const viewport: Viewport = { themeColor: "#0b0b0c", colorScheme: "dark" };
