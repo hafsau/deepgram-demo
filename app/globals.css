@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+/* Roobert, as the Deepgram Playground loads it (Regular 400, Medium 500,
+   Bold 700). Proxied same-origin via next.config.ts. Fallback metrics are
+   deepgram.com's own, so text keeps its shape while it loads. */
+@font-face { font-family: "Roobert"; font-weight: 400; font-display: swap; src: url("/fonts/roobert/Roobert-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Roobert"; font-weight: 500; font-display: swap; src: url("/fonts/roobert/Roobert-Medium.woff2") format("woff2"); }
+@font-face { font-family: "Roobert"; font-weight: 700; font-display: swap; src: url("/fonts/roobert/Roobert-Bold.woff2") format("woff2"); }
+@font-face {
+  font-family: "Roobert Fallback";
+  src: local("Arial");
+  ascent-override: 97.98%;
+  descent-override: 23.68%;
+  line-gap-override: 0%;
+  size-adjust: 103.9%;
+}
+
+/*
+ * Cosmos tokens, read from the live Playground (playground.deepgram.com) and
+ * deepgram.com, October 2026:
+ *  - Page #0b0b0c, cards #18181d with 1px #2c2c33, 8px corners, 24px padding.
+ *  - Fields #18181d / #2c2c33, 4px corners. Active nav #2c2c33.
+ *  - Text #fbfbff (primary), #d0d0d0 (body), #bbbbbf (secondary), #4e4e52 (disabled).
+ *  - Primary button: #fbfbff on #232329 text, Inter 600 14px, 4px corners, 36px.
+ *    Secondary (deepgram.com): transparent, 1px #88888c.
+ *  - Segmented control: active pill #fbfbff, Roobert 600 14px, 8px corners.
+ *  - Selected item: 1px #13ef93. Badge: pill, #13ef93 at 20% with a #13ef93 border.
+ *  - Play button: #13ef93 circle, #2c2c33 icon. Links #79affa.
+ *  - Type: Inter 14/20 in the app, Roobert 400 18/28 panel titles,
+ *    Roobert 700 at -0.02em for marketing-scale headings. Fira Code for code.
+ *
+ * Edge case, documented on /cosmos: Cosmos's control border #4e4e52 is
+ * 2.14:1 on cards, under WCAG 1.4.11's 3:1, so interactive borders here use
+ * #66666c (3.10:1). Decorative borders keep #4e4e52.
+ */
+:root {
+  color-scheme: dark;
+
+  --bg: #0b0b0c;
+  --surface: #101013;
+  --card: #18181d;
+  --raised: #2c2c33;
+  --line: #2c2c33;
+  --line-cosmos: #4e4e52;
+  --line-strong: #66666c;
+
+  --text: #fbfbff;
+  --body: #d0d0d0;
+  --muted: #bbbbbf;
+  --dim: #8b8b95;
+  --disabled: #4e4e52;
+
+  --green: #13ef93;
+  --blue: #149afb;
+  --link: #79affa;
+  --purple: #c7a2ff;
+  --pink: #ff7ab8;
+  --amber: #fbbf24;
+  --red: #ff6b6b;
+  --btn: #fbfbff;
+  --btn-text: #232329;
+  --outline: #88888c;
+
+  --stage-turn: var(--purple);
+  --stage-stt: var(--green);
+  --stage-llm: var(--link);
+  --stage-tool: var(--amber);
+  --stage-tts: var(--pink);
+  --stage-hold: var(--dim);
+
+  --gradient: linear-gradient(90deg, #13ef93, #149afb);
+  --focus: #13ef93;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-raised: var(--raised);
+  --color-body: var(--body);
+  --color-disabled: var(--disabled);
+  --color-line-cosmos: var(--line-cosmos);
+  --color-btn: var(--btn);
+  --color-btn-text: var(--btn-text);
+  --color-outline: var(--outline);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-green: var(--green);
+  --color-blue: var(--blue);
+  --color-link: var(--link);
+  --color-purple: var(--purple);
+  --color-pink: var(--pink);
+  --color-amber: var(--amber);
+  --color-red: var(--red);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Roobert", "Roobert Fallback", var(--font-inter), sans-serif;
+  --font-roobert: "Roobert", "Roobert Fallback", Arial, sans-serif;
+  --font-mono: var(--font-fira), ui-monospace, monospace;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+body {
+  font-size: 0.875rem; /* Playground: Inter 14/20 */
+  line-height: 1.43;
+  color: var(--body);
+}
+html {
+  scroll-padding-top: 72px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* deepgram.com headings: Roobert 700, -0.02em, 1.25 line height. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--text);
+  text-wrap: balance;
+}
+/* Playground panel titles: Roobert 400, 18/28. */
+.panel-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: var(--text);
+}
+
+.gradient-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--green);
+}
+
+.link {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hatch {
+  background-image: repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 6px);
+}
+
+.overflow-x-auto,
+.overflow-auto {
+  position: relative;
+}
+
+/* Range inputs styled for the dark system, with a visible focus ring. */
+input[type="range"] {
+  accent-color: var(--green);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
